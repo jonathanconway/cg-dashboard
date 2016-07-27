@@ -106,7 +106,7 @@ export class Nav extends React.Component {
         { sortedOrgs.map((org) => {
           let toggleSpaceHandler = this._toggleSpacesMenu.bind(this, org.guid);
           let arrowClasses = (org.space_menu_open) ? downArrow : rightArrow;
-          let activeOrgClasses = (org.space_menu_open) ? this.styler('sidenav-active') : '';
+          let activeOrgClasses = (org.space_menu_open) ? this.styler('sidenav-active', 'test-active') : '';
           let subList = <div></div>;
           const sortedSpaces = org.spaces.sort((a, b) => a.name < b.name ? -1 : 1);
 
