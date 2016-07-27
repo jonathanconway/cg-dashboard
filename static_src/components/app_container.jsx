@@ -127,7 +127,7 @@ export default class AppContainer extends React.Component {
     } else if (this.state.app.name) {
       content = (
         <div>
-          <h2>{ this.fullTitle }</h2>
+          <h2 className="test-heading">{ this.fullTitle }</h2>
           <section className={this.styler('section-card')}>
             <h3>About this application</h3>
             <table>

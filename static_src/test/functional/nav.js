@@ -9,6 +9,11 @@ function children(...classes) {
 }
 
 const nav = {
+  gotoApp(appGuid) {
+    browser.url('/#/org/org-guid-three/spaces/space-guid-one/apps/' + appGuid);
+    browser.waitForExist('main');
+  },
+
   selectAnyActive() {
     var sel = children(selSidenav, selSidenavActive);
     return sel;
