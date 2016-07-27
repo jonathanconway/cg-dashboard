@@ -1,5 +1,6 @@
 
 var Hapi = require('hapi');
+var selenium = require('selenium-standalone');
 var smocksPlugin = require('./static_src/test/server/server.js');
 var server = 'poop';
 
@@ -140,8 +141,20 @@ exports.config = {
     // Gets executed once before all workers get launched.
     onPrepare: function (config, capabilities) {
       console.log('starting tests');
+      console.log('starting selenium');
+      return new Promise(function(resolve, reject) {
+        selenium.start(function(err, childProcess) {
+          if (err) {
+            return reject(err);
+          }
+
+          console.log('started selenium successfully');
+          config.seleniumProcess = childProcess;
+          return resolve();
+        });
+      });
     },
-    //
+
     // Gets executed before test execution begins. At this point you can access all global
     // variables, such as `browser`. It is the perfect place to define custom commands.
     before: function (capabilities, specs) {
@@ -227,6 +240,7 @@ exports.config = {
     // Gets executed after all workers got shut down and the process is about to exit. It is not
     // possible to defer the end of the process using a promise.
     onComplete: function(exitCode) {
+      this.seleniumProcess.kill();
       console.log('finishing tests');
     }
 }
