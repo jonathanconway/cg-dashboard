@@ -1004,9 +1004,9 @@
       "resolved": "https://registry.npmjs.org/clone/-/clone-1.0.2.tgz"
     },
     "cloudgov-style": {
-      "version": "1.3.0",
-      "from": "cloudgov-style@>=1.3.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/cloudgov-style/-/cloudgov-style-1.3.0.tgz"
+      "version": "1.2.2",
+      "from": "git+https://github.com/18F/cg-style.git#ms-form_notification",
+      "resolved": "git+https://github.com/18F/cg-style.git#8372f50f6774ebb5ebe783ff438ed4c5f26f487d"
     },
     "co": {
       "version": "4.6.0",
