@@ -26,7 +26,13 @@ module.exports = function api(smocks) {
     handler: function (req, reply) {
       var guid = req.params.guid;
       var route = routes.pop();
-      reply(route);
+      reply({
+        total_results: 1,
+        total_pages: 1,
+        prev_url: null,
+        next_url: null,
+        resources: [route]
+      });
     }
   });
 
@@ -183,7 +189,40 @@ module.exports = function api(smocks) {
 
   smocks.route({
     id: 'service-instance-bindings',
-    label: 'Serivce instance bindings',
+    label: 'Service instance bindings',
+    path: `${BASE_URL}/service_bindings`,
+    handler: function(req, reply) {
+      var guid = req.params.guid;
+      reply({
+        total_results: serviceInstanceBindings.length,
+        total_pages: 1,
+        prev_url: null,
+        next_url: null,
+        resources: serviceInstanceBindings
+      });
+    }
+
+  });
+
+  smocks.route({
+    id: 'space-service-instance-bindings',
+    label: 'Service instance bindings for space',
+    path: `${BASE_URL}/spaces/{spaceGuid}/routes`,
+    handler: function(req, reply) {
+      var guid = req.params.guid;
+      reply({
+        total_results: routes.length,
+        total_pages: 1,
+        prev_url: null,
+        next_url: null,
+        resources: routes
+      });
+    }
+  });
+
+  smocks.route({
+    id: 'app-service-instance-bindings',
+    label: 'Service instance bindings for app',
     path: `${BASE_URL}/apps/{appGuid}/service_bindings`,
     handler: function(req, reply) {
       var guid = req.params.guid;

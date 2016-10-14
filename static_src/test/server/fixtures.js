@@ -209,35 +209,27 @@ module.exports.domains = domains;
 
 var routes = routeGuids.map(function(guid, i){
   var domainGuid = domainGuids[i];
-  var spaceGuid = spaceGuids[i];
+  var spaceGuid = spaceGuids[1];
   var domainType = alternateDomainType(i);
   return {
-    total_results: 1,
-    total_pages: 1,
-    prev_url: null,
-    next_url: null,
-    resources: [
-      {
-        metadata: {
-          guid: guid,
-          url: `${URL_BASE}/routes/${guid}`,
-          created_at: '2015-10-13T18:30:37Z',
-          updated_at: null
-        },
-        entity: {
-          host: 'console',
-          path: '',
-          domain_guid: domainGuid,
-          space_guid: spaceGuids[i],
-          service_instance_guid: null,
-          port: 0,
-          domain_url: `${URL_BASE}/${domainType}/${domainGuid}`,
-          space_url: `${URL_BASE}/spaces/${spaceGuid}`,
-          apps_url: `${URL_BASE}/routes/${guid}/apps`,
-          route_mappings_url: `${URL_BASE}/routes/${guid}/route_mappings`
-        }
-      }
-    ]
+    metadata: {
+      guid: guid,
+      url: `${URL_BASE}/routes/${guid}`,
+      created_at: '2015-10-13T18:30:37Z',
+      updated_at: null
+    },
+    entity: {
+      host: 'console',
+      path: '',
+      domain_guid: domainGuid,
+      space_guid: spaceGuid,
+      service_instance_guid: null,
+      port: 0,
+      domain_url: `${URL_BASE}/${domainType}/${domainGuid}`,
+      space_url: `${URL_BASE}/spaces/${spaceGuid}`,
+      apps_url: `${URL_BASE}/routes/${guid}/apps`,
+      route_mappings_url: `${URL_BASE}/routes/${guid}/route_mappings`
+    }
   }
 });
 
