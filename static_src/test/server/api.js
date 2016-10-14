@@ -4,6 +4,7 @@ var apps = data.apps;
 var appStats = data.appStats;
 var domains = data.domains
 var events = data.events;
+var logs = data.logs;
 var organizations = data.organizations;
 var routes = data.routes;
 var services = data.services;
@@ -112,6 +113,22 @@ module.exports = function api(smocks) {
         "prev_url": null,
         "next_url": null,
         "resources": events
+      })
+    }
+  });
+
+  smocks.route({
+    id: 'logs',
+    label: 'Logs',
+    path: `${BASE_URL}/log/recent`,
+    handler: function (req, reply) {
+      var guid = req.params.guid;
+      reply({
+        "total_results": logs.length,
+        "total_pages": 1,
+        "prev_url": null,
+        "next_url": null,
+        "resources": logs
       })
     }
   });

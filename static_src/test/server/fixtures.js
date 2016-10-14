@@ -16,6 +16,8 @@ var domainGuids = [
   'domain-guid-five'
 ];
 
+module.exports.domainGuids = domainGuids;
+
 var eventGuids = [
   'event-guid-one',
   'event-guid-two',
@@ -25,7 +27,12 @@ var eventGuids = [
 
 module.exports.eventGuids = eventGuids;
 
-module.exports.domainGuids = domainGuids;
+var logGuids = [
+  'log-guid-one',
+  'log-guid-two',
+  'log-guid-three',
+  'log-guid-four'
+];
 
 var organizationGuids = [
   'org-guid-one',
@@ -223,47 +230,68 @@ const eventTypes = [
   'audit.route.update'
 ];
 
-var events = eventGuids.map(function(guid, i) {
-  const typeNum = (i > 3) ? 2 : i;
-  const eventType = eventTypes[typeNum];
-  const actorType = actorTypes[typeNum];
-  const appGuid = appGuids[0];
-  const orgGuid = organizationGuids[0];
-  const spaceGuid = spaceGuids[1];
+var events = spaceGuids.map(function(spaceGuid, i) {
+  return eventGuids.map(function(guid, j) {
+    const typeNum = (j > 3) ? 2 : j;
+    const eventType = eventTypes[typeNum];
+    const actorType = actorTypes[typeNum];
+    const appGuid = appGuids[i];
+    const orgGuid = organizationGuids[i];
 
-  return {
-    "metadata": {
-      "guid": guid,
-      "url": "/v2/events/0f56cf37-f453-42e4-a816-4f7b7a5c91bf",
-      "created_at": "2016-09-16T22:15:04Z",
-      "updated_at": null
-    },
-    "entity": {
-      "type": eventType,
-      "actor": "bba7537f-601d-48c4-9705-4583ba54ea4b",
-      "actor_type": actorType,
-      "actor_name": "marco.segreto@gsa.gov",
-      "actee": "74788a76-de82-4ebf-98bb-b257fae17a30",
-      "actee_type": actorType,
-      "actee_name": "",
-      "timestamp": "2016-09-16T22:15:04Z",
+    return {
       "metadata": {
-        "request": {
-          "service_instance_guid": "1bf0f2c8-9761-4bf3-928d-a52440805fc6",
-          "app_guid": appGuid
-        }
+        "guid": guid,
+        "url": "/v2/events/0f56cf37-f453-42e4-a816-4f7b7a5c91bf",
+        "created_at": "2016-09-16T22:15:04Z",
+        "updated_at": null
       },
-      "space_guid": spaceGuid,
-      "organization_guid": orgGuid,
-      "guid": "0f56cf37-f453-42e4-a816-4f7b7a5c91bf",
-      "url": "/v2/events/0f56cf37-f453-42e4-a816-4f7b7a5c91bf",
-      "created_at": "2016-09-16T22:15:04Z",
-      "updated_at": null
+      "entity": {
+        "type": eventType,
+        "actor": "bba7537f-601d-48c4-9705-4583ba54ea4b",
+        "actor_type": actorType,
+        "actor_name": "marco.segreto@gsa.gov",
+        "actee": "74788a76-de82-4ebf-98bb-b257fae17a30",
+        "actee_type": actorType,
+        "actee_name": "",
+        "timestamp": "2016-09-16T22:15:04Z",
+        "metadata": {
+          "request": {
+            "service_instance_guid": "1bf0f2c8-9761-4bf3-928d-a52440805fc6",
+            "app_guid": appGuid
+          }
+        },
+        "space_guid": spaceGuid,
+        "organization_guid": orgGuid,
+        "guid": "0f56cf37-f453-42e4-a816-4f7b7a5c91bf",
+        "url": "/v2/events/0f56cf37-f453-42e4-a816-4f7b7a5c91bf",
+        "created_at": "2016-09-16T22:15:04Z",
+        "updated_at": null
+      }
     }
-  }
+  });
+}).reduce(function(prev, curr) {
+  return prev.concat(curr);
 });
 
 module.exports.events = events;
+
+
+var logs = spaceGuids.map(function(spaceGuid, i) {
+  return logGuids.map(function(guid, j) {
+    const typeNum = (j > 3) ? 2 : j;
+    const eventType = eventTypes[typeNum];
+    const actorType = actorTypes[typeNum];
+    const appGuid = appGuids[i];
+    const orgGuid = organizationGuids[i];
+    return {
+      "message": "dashboard-master.apps.cloud.gov - [14/10/2016:21:08:24.978 +0000] \"HEAD / HTTP/1.1\" 302 0 0 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36\" 127.0.0.1:10606 x_forwarded_for:\"52.8.5.138\" x_forwarded_proto:\"https\" vcap_request_id:02c1b12b-27b5-44a9-7771-e7d5fb5229e0 response_time:0.002968368 app_id:49baf95c-8b82-4cb6-905f-6315232433c5 app_index:-\n"
+    };
+  });
+}).reduce(function(prev, curr) {
+  return prev.concat(curr);
+});
+
+module.exports.logs = logs;
 
 var routes = routeGuids.map(function(guid, i){
   var domainGuid = domainGuids[i];
