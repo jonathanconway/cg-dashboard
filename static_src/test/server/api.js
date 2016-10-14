@@ -3,6 +3,7 @@ var data = require('./fixtures');
 var apps = data.apps;
 var appStats = data.appStats;
 var domains = data.domains
+var events = data.events;
 var organizations = data.organizations;
 var routes = data.routes;
 var services = data.services;
@@ -96,6 +97,22 @@ module.exports = function api(smocks) {
       var guid = req.params.guid;
       var app = apps.filter((app) => app.guid === guid).pop();
       reply(app);
+    }
+  });
+
+  smocks.route({
+    id: 'space-events',
+    label: 'Events for space',
+    path: `${BASE_URL}/spaces/{guid}/events`,
+    handler: function (req, reply) {
+      var guid = req.params.guid;
+      reply({
+        "total_results": events.length,
+        "total_pages": 1,
+        "prev_url": null,
+        "next_url": null,
+        "resources": events
+      })
     }
   });
 
