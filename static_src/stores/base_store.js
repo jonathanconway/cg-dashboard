@@ -198,4 +198,11 @@ export default class BaseStore extends EventEmitter {
 
     cb(dataHasChanged);
   }
+
+  setOptions(entity, options) {
+    const newEntity = Object.assign({}, entity, options || {});
+    this.merge('guid', newEntity, (changed) => {
+      if (changed) this.emitChange();
+    });
+  }
 }

@@ -167,12 +167,9 @@ class ServiceInstanceStore extends BaseStore {
       case serviceActionTypes.SERVICE_INSTANCE_DELETE_CONFIRM: {
         const exists = this.get(action.serviceInstanceGuid);
         if (exists) {
-          const toConfirm = {
+          this.setOptions(exists, {
             guid: action.serviceInstanceGuid,
             confirmDelete: true
-          };
-          this.merge('guid', toConfirm, (changed) => {
-            if (changed) this.emitChange();
           });
         }
         break;
@@ -181,12 +178,9 @@ class ServiceInstanceStore extends BaseStore {
       case serviceActionTypes.SERVICE_INSTANCE_DELETE_CANCEL: {
         const exists = this.get(action.serviceInstanceGuid);
         if (exists) {
-          const toConfirm = {
+          this.setOptions(exists, {
             guid: action.serviceInstanceGuid,
             confirmDelete: false
-          };
-          this.merge('guid', toConfirm, (changed) => {
-            if (changed) this.emitChange();
           });
         }
 
@@ -211,8 +205,7 @@ class ServiceInstanceStore extends BaseStore {
       case serviceActionTypes.SERVICE_BIND: {
         const instance = this.get(action.serviceInstanceGuid);
         if (instance) {
-          const newInstance = Object.assign({}, instance, { loading: 'Binding' });
-          this.merge('guid', newInstance, () => this.emitChange());
+          this.setOptions(instance, { loading: 'Binding' });
         }
         break;
       }
@@ -220,9 +213,7 @@ class ServiceInstanceStore extends BaseStore {
       case serviceActionTypes.SERVICE_UNBIND: {
         const instance = this.get(action.serviceBinding.service_instance_guid);
         if (instance) {
-          const newInstance = Object.assign({}, instance,
-            { loading: 'Unbinding' });
-          this.merge('guid', newInstance, () => this.emitChange());
+          this.setOptions(instance, { loading: 'Unbinding' });
         }
         break;
       }
@@ -237,42 +228,36 @@ class ServiceInstanceStore extends BaseStore {
         }
         const instance = this.get(binding.service_instance_guid);
         if (!instance) break; // TODO throw error
-        const updatedInstance = Object.assign({}, instance, {
+        this.setOptions(instance, {
           changing: false,
           error: false,
           loading: false
         });
-        this.merge('guid', updatedInstance, () => this.emitChange());
         break;
       }
 
       case serviceActionTypes.SERVICE_INSTANCE_CHANGE_CHECK: {
         const instance = this.get(action.serviceInstanceGuid);
         if (!instance) break; // TODO throw error?
-        const updatedInstance = Object.assign({}, instance, {
+        this.setOptions(instance, {
           changing: true
         });
-        this.merge('guid', updatedInstance, () => this.emitChange());
         break;
       }
 
       case serviceActionTypes.SERVICE_INSTANCE_CHANGE_CANCEL: {
         const instance = this.get(action.serviceInstanceGuid);
         if (!instance) break; // TODO throw error?
-        const updatedInstance = Object.assign({}, instance, {
+        this.setOptions(instance, {
           changing: false
         });
-        this.merge('guid', updatedInstance, () => this.emitChange());
         break;
       }
 
       case serviceActionTypes.SERVICE_INSTANCE_ERROR: {
         const instance = this.get(action.serviceInstanceGuid);
         if (!instance) break;
-        const newInstance = Object.assign({}, instance, { error: action.error });
-        this.merge('guid', newInstance, (changed) => {
-          if (changed) this.emitChange();
-        });
+        this.setOptions(instance, { error: action.error });
         break;
       }
 

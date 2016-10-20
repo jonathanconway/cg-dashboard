@@ -387,4 +387,21 @@ describe('BaseStore', () => {
       });
     });
   });
+
+  describe('setOptions()', function () {
+    it('sets the options', function () {
+      const entity = {guid: '123'};
+      const spy = sandbox.spy();
+      store.addChangeListener(spy);
+      store.setOptions(entity, {
+        removing: true,
+        available: false
+      });
+
+      const newEntity = store.get(entity.guid);
+      expect(newEntity.removing).toEqual(true);
+      expect(newEntity.available).toEqual(false);
+      expect(spy).toHaveBeenCalledOnce();
+    });
+  });
 });
